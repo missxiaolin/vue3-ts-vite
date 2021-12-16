@@ -257,6 +257,7 @@ module.exports = {
 
 ```
 
+
 ### 项目下新建 .eslintignore
 
 ```bash
@@ -334,7 +335,6 @@ yarn lint
 yarn prettier
 ```
 
-
 ### 配置 husky + lint-staged
 >使用husky + lint-staged助力团队编码规范, husky&lint-staged安装推荐使用 mrm, 它将根据 package.json 依赖项中的代码质量工具来安装和配置 husky 和 lint-staged，因此请确保在此之前安装并配置所有代码质量工具，如 Prettier 和 ESlint
 
@@ -351,13 +351,28 @@ npm i mrm -D --registry=https://registry.npm.taobao.org
 
 所以这个 `lint-staged`，对团队项目和开源项目来说，是一个很好的工具，它是对个人要提交的代码的一个规范和约束
 
-### 安装 husky
-```bash
-npx mrm husky
-```
 ### 安装 lint-staged
+>mrm 安装 lint-staged 会自动把 husky 一起安装下来
 ```bash
 npx mrm lint-staged
+```
+
+安装成功后会发现 package.json 中多了一下几个配置: 
+
+因为我们要结合 prettier 代码格式化,所有修改一下配置: 
+```json
+"husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,vue,ts,tsx}": [
+      "yarn lint",
+      "prettier --write",
+      "git add"
+    ]
+  }
 ```
 
 ### 配置文件引用别名
@@ -380,6 +395,8 @@ export default defineConfig({
 })
 
 ```
+
+
 
 
 参考:
