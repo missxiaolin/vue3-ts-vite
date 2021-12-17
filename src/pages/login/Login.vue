@@ -20,6 +20,8 @@ const updateName = () => {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.test {
+  color: $test-color;
+}
 </style>
