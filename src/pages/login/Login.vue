@@ -22,6 +22,7 @@ const updateName = () => {
 
 <style lang="scss" scoped>
 .test {
+  width: 200px;
   color: $test-color;
 }
 </style>

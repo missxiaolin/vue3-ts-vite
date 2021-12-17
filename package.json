@@ -12,9 +12,11 @@
   },
   "dependencies": {
     "axios": "^0.24.0",
+    "lib-flexible": "^0.3.2",
     "naive-ui": "^2.21.2",
     "nprogress": "^0.2.0",
     "pinia": "^2.0.0-rc.10",
+    "postcss-px2rem-exclude": "0.0.6",
     "vfonts": "^0.1.0",
     "vue": "^3.2.2",
     "vue-router": "4"
@@ -57,5 +59,13 @@
       "prettier --write",
       "git add"
     ]
+  },
+  "postcss": {
+    "plugins": {
+      "postcss-px2rem-exclude": {
+        "remUnit": 37.5,
+        "exclude": "/node_modules/i"
+      }
+    }
   }
 }
