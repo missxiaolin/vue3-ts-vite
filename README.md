@@ -7,8 +7,6 @@
 5. `Vue Language Features (Volar)`：Vscode 开发 vue3 必备插件，提供语法高亮提示，非常好用
 6. `Vue 3 Snippets`：vue3 快捷输入
 
-> 由于`Vue.js devtools` 需要到谷歌扩展商店才能下载,贴心 ❤️ 的`xy`已经为大家准备好了`crx`文件了,公众号回复:【`VueDevTools`】可自动获取哦 💪
-
 ## Vue2 与 Vue3 的区别
 
 `Vue3`由于完全由`TS`进行重写，在应用中对类型判断的定义和使用有很强的表现。同一对象的多个键返回值必须通过定义对应的接口（`interface`）来进行类型定义。要不然在 ESLint 时都会报错。
