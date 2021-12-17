@@ -1,9 +1,6 @@
 //http.ts
 import axios from 'axios'
 import NProgress from 'nprogress'
-import type { App } from 'vue'
-// const CancelToken = axios.CancelToken
-// const source = CancelToken.source()
 
 // 设置请求头和请求路径
 axios.defaults.baseURL = '/api'
@@ -23,7 +20,7 @@ axios.interceptors.request.use(
 )
 // 响应拦截
 axios.interceptors.response.use((res) => {
-    if (res.data.code === 'TOKEN_ERROR') {
+    if (res.data.code === 111) {
         sessionStorage.setItem('token', '')
         // token过期操作
     }
