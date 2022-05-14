@@ -1,0 +1,211 @@
+@charset "UTF-8";
+
+@import './util';
+@import './border';
+
+.f-p-0 {
+  padding: 0 !important;
+}
+
+.f-border {
+  @include border($direction: all, $size: 1px, $color: #ddd, $style: solid);
+}
+
+.f-border-bottom {
+  @include border($direction: bottom, $size: 1px, $color: #ddd, $style: solid);
+}
+
+/* 圆角边框百分比 */
+.f-border-radius {
+  @include border($direction: all, $radius: 50%);
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: 'Microsoft YaHei';
+  font-size: px2vw(28);
+  background-color: #f8f8f8;
+
+  /* vw2px的使用方式，仅用于临时计算 */
+  border-width: vw2px(16);
+}
+
+.container {
+  background-color: #fff;
+}
+
+header {
+  height: px2vw(300);
+  line-height: px2vw(300);
+  text-align: center;
+  background-color: #f2f2f2;
+}
+
+/* 容器宽高比 */
+.header {
+  @include aspect-ratio(
+    // $width: px2vw(600),
+    // $sub: ".header-content",
+    $aspectX: 375,
+    $aspectY: 150
+  );
+}
+
+nav ul {
+  display: flex;
+  justify-content: space-around;
+  padding: 0;
+
+  li {
+    display: flex;
+    flex-wrap: wrap;
+    width: px2vw(200);
+    justify-content: center;
+  }
+
+  .icon {
+    width: px2vw(120);
+    height: px2vw(120);
+    margin-bottom: px2vw(20);
+    line-height: px2vw(120);
+    text-align: center;
+    background-color: #f2f2f2;
+  }
+}
+
+main {
+  padding: px2vw(20);
+
+  h3 {
+    position: relative;
+    margin-top: px2vw(50);
+    margin-left: px2vw(26);
+    font-size: px2vw(30);
+
+    /* 字体也可以选择不使用rem
+            @include font-size(30px);
+        */
+
+    &::before {
+      position: absolute;
+      left: px2vw(-20);
+      width: px2vw(12);
+      height: 100%;
+      background-color: #fc8200;
+      content: '';
+    }
+  }
+}
+
+.info-items {
+  margin-top: px2vw(20);
+  margin-bottom: px2vw(20);
+}
+
+.info-item {
+  // border: 1px solid #ddd;
+
+  display: flex;
+  padding: px2vw(30);
+  padding-left: 0;
+  margin-top: px2vw(20);
+
+  /* 多个边框调用 */
+  &:not(.info-item__tel) {
+    @include border($direction: all, $size: 1px, $color: #ddd, $style: solid, $radius: 50px);
+  }
+
+  &.info-item__tel {
+    @include border($direction: bottom, $size: 1px, $color: #ddd, $style: solid);
+  }
+
+  &:only-of-type {
+    @include border($direction: all, $size: 1px, $color: #ddd, $style: solid);
+  }
+
+  /* 多个边框的动态更新 */
+  &.hover {
+    @include border(
+      $direction: (
+        top,
+        right,
+        bottom,
+        left,
+      ),
+      $size: (
+        3px,
+        2px,
+        1px,
+      ),
+      $color: (
+        #0f0,
+        #ddd,
+      ),
+      $style: dotted
+    );
+  }
+
+  span {
+    /* 单个边框调用 */
+    @include border($direction: right);
+
+    min-width: px2vw(120);
+    text-align: center;
+
+    /* 单个边框的动态更新 */
+    &.hover {
+      @include border($direction: right, $size: 5px, $color: #0f0);
+    }
+
+    // border-right: 1px solid #ddd;
+  }
+
+  input {
+    width: 100%;
+    font-size: px2vw(28);
+    border: none;
+    outline: none;
+    caret-color: #fc8200;
+  }
+
+  textarea {
+    width: 100%;
+    height: px2vw(250);
+    padding: px2vw(20);
+    font-family: 'Microsoft YaHei';
+    font-size: px2vw(28);
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
+    border: none;
+    caret-color: #fc8200;
+  }
+}
+
+.info-confirm {
+  margin-bottom: px2vw(40);
+  text-align: center;
+
+  &__btn {
+    display: inline-block;
+    width: px2vw(200);
+    height: px2vw(80);
+    margin-top: px2vw(80);
+    line-height: px2vw(80);
+    color: #fff !important;
+    text-align: center;
+    text-decoration: none !important;
+    background-color: #fc8200;
+  }
+}
+
+footer {
+  height: px2vw(150);
+  line-height: px2vw(150);
+  text-align: center;
+  background-color: #f2f2f2;
+}
