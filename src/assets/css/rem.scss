@@ -1,0 +1,52 @@
+.f-p-0 {
+  padding: 0 !important;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+html body {
+  min-width: 320px;
+  margin-right: auto;
+  margin-left: auto;
+}
+@media (-webkit-device-pixel-ratio: 2) {
+  html body {
+    min-width: 640px;
+  }
+}
+@media (-webkit-device-pixel-ratio: 3) {
+  html body {
+    min-width: 960px;
+  }
+}
+
+html body[data-content-max] {
+  max-width: 540px;
+  margin-right: auto;
+  margin-left: auto;
+}
+@media (-webkit-device-pixel-ratio: 2) {
+  html body[data-content-max] {
+    max-width: 1080px;
+  }
+}
+@media (-webkit-device-pixel-ratio: 3) {
+  html body[data-content-max] {
+    max-width: 1620px;
+  }
+}
+
+html[data-dpr='1'] body {
+  min-width: 320px;
+}
+
+body {
+  font-family: 'Microsoft YaHei';
+  font-size: 0.3733333333rem;
+  background-color: #f8f8f8;
+  border-width: 45px;
+}
