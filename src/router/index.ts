@@ -18,6 +18,14 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       title: '首页',
     },
+  },
+  {
+    path: '/video',
+    name: 'video',
+    component: () => import('@/pages/video/Index.vue'),
+    meta: {
+      title: '视频'
+    }
   }
 ]
 
