@@ -1,4 +1,5 @@
 <template>
+  <div class="example">
     <Yvideo :src="src" :poster="poster">
       <div class="mantle">
         <div class="right" @click.stop="">
