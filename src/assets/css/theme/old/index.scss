@@ -1,0 +1,7 @@
+/* 老年主题色 */
+@import "../../settings/variable.scss";
+$theme-old: (
+    color: $danger,
+    font-weight: $font-weight-bold,
+    font-size: $font-size-slg,
+);
