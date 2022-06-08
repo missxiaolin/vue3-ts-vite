@@ -26,6 +26,14 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       title: '视频'
     }
+  },
+  {
+    path: '/home',
+    name: 'home',
+    component: () => import('@/pages/home/Index.vue'),
+    meta: {
+      title: '视频'
+    }
   }
 ]
 
