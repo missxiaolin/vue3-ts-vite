@@ -6,6 +6,9 @@ import viteCompression from 'vite-plugin-compression'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  define: { // 定义常量可以在项目中使用
+    appName: JSON.stringify('测试'),
+  },
   base: './', //打包路径
   plugins: [
     vue(),
@@ -27,7 +30,7 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: '@import "@/assets/css/mian.scss";',
+        additionalData: '@import "@/assets/css/mian.scss";@import "@/assets/css/theme/index.scss";',
       },
     },
   },
