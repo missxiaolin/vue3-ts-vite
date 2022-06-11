@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <van-tabbar route v-model="active">
+    <van-tabbar v-model="active" route>
       <van-tabbar-item replace to="/home" icon="home-o">首页</van-tabbar-item>
       <van-tabbar-item replace to="/list" icon="orders-o">列表</van-tabbar-item>
       <van-tabbar-item replace to="/mine" icon="setting-o">我的</van-tabbar-item>
@@ -10,6 +10,8 @@
 </template>
 
 <script lang="ts">
+declare let THEMEARR: any
+declare let THEMEFILES: any
 import fs from 'fs'
 export default {
   data() {
@@ -18,6 +20,7 @@ export default {
     }
   },
   mounted() {
+    console.log('ThemesArr', THEMEARR, 'THEMEFILES', THEMEFILES)
     document.getElementsByTagName('body')[0].setAttribute('data-theme', 'default')
   },
 }
