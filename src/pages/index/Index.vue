@@ -11,8 +11,6 @@
 
 <script lang="ts">
 import fs from 'fs'
-console.log('appName', appName)
-console.log("appName", "my-custom-name")
 export default {
   data() {
     return {

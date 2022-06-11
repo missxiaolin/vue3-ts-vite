@@ -1,13 +1,26 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
+import fs from 'fs'
 //@ts-ignore
 import viteCompression from 'vite-plugin-compression'
 
+// 获取主题文件名
+const themeFiles: any = fs.readdirSync('./src/assets/css/theme')
+const ThemesArr: any = []
+themeFiles.forEach(function (item, index) {
+  const stat: any = fs.lstatSync('./src/assets/css/theme/' + item)
+  if (stat.isDirectory() === true) {
+    ThemesArr.push(item)
+  }
+})
+
 // https://vitejs.dev/config/
 export default defineConfig({
-  define: { // 定义常量可以在项目中使用
-    appName: JSON.stringify('测试'),
+  define: {
+    // 定义常量可以在项目中使用
+    THEMEARR: JSON.stringify(ThemesArr),
+    THEMEFILES: JSON.stringify(themeFiles),
   },
   base: './', //打包路径
   plugins: [
