@@ -17,6 +17,7 @@
     "lib-flexible": "^0.3.2",
     "lodash": "^4.17.21",
     "naive-ui": "^2.21.2",
+    "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0",
     "pinia": "^2.0.0-rc.10",
     "postcss-px2rem-exclude": "0.0.6",
