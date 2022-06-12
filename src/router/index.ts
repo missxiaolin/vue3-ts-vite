@@ -12,12 +12,38 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: '/',
+    path: '/index',
     name: 'Index',
     component: () => import('@/pages/index/Index.vue'),
     meta: {
       title: '首页',
     },
+    children: [
+      {
+        path: '/index/home',
+        name: 'home',
+        component: () => import('@/pages/home/Index.vue'),
+        meta: {
+          title: 'Home'
+        }
+      },
+      {
+        path: '/index/list',
+        name: 'list',
+        component: () => import('@/pages/list/Index.vue'),
+        meta: {
+          title: 'List'
+        }
+      },
+      {
+        path: '/index/mine',
+        name: 'mine',
+        component: () => import('@/pages/mine/Index.vue'),
+        meta: {
+          title: 'Mine'
+        }
+      }
+    ]
   },
   {
     path: '/video',
@@ -27,14 +53,7 @@ const routes: Array<RouteRecordRaw> = [
       title: '视频'
     }
   },
-  {
-    path: '/home',
-    name: 'home',
-    component: () => import('@/pages/home/Index.vue'),
-    meta: {
-      title: '视频'
-    }
-  }
+  
 ]
 
 const router = createRouter({

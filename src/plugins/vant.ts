@@ -1,5 +1,5 @@
 import { App } from 'vue'
-import 'vant/lib/index.css';
+import 'vant/lib/index.css'
 import '@vant/touch-emulator' // 桌面端touch适配
 import {
   Button,

@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <van-tabbar v-model="active" route>
-      <van-tabbar-item replace to="/home" icon="home-o">首页</van-tabbar-item>
-      <van-tabbar-item replace to="/list" icon="orders-o">列表</van-tabbar-item>
-      <van-tabbar-item replace to="/mine" icon="setting-o">我的</van-tabbar-item>
+      <van-tabbar-item replace to="/index/home" icon="home-o">首页</van-tabbar-item>
+      <van-tabbar-item replace to="/index/list" icon="orders-o">列表</van-tabbar-item>
+      <van-tabbar-item replace to="/index/mine" icon="friends-o">我的</van-tabbar-item>
     </van-tabbar>
     <router-view data-theme="light-theme" />
   </div>
@@ -12,7 +12,7 @@
 <script lang="ts">
 declare let THEMEARR: any
 declare let THEMEFILES: any
-import fs from 'fs'
+
 export default {
   data() {
     return {
