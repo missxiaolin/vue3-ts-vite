@@ -19,6 +19,23 @@
         @cancel="showPicker = false"
       />
     </van-popup>
+
+    <van-grid :column-num="columnNum[currentThemeIndex]">
+      <van-grid-item
+        v-for="value in gridNum[currentThemeIndex]"
+        :key="value"
+        :icon="gridIcon[currentThemeIndex]"
+        text="文字"
+      />
+    </van-grid>
+
+    <div v-for="(item, index) in 3" :key="index" class="container">
+      <div class="t-home-title">标题</div>
+      <div class="t-home-sub-title">副标题</div>
+      <div class="t-home-info">
+        这是一段很长的详情信息这是一段很长的详情信息这是一段很长的详情信息这是一段很长的详情信息这是一段很长的详情信息这是一段很长的详情信息这是一段很长的详情信息
+      </div>
+    </div>
   </div>
 </template>
 
@@ -34,6 +51,9 @@ export default {
     let oldData = getCurrentInstance()
     let showPicker: Ref<Boolean> = ref(false)
     let themeValue: any = ref([])
+    let columnNum: any = ref([4, 2])
+    let gridNum: any = ref([8, 4])
+    let gridIcon: any = ref(['location-o', 'like-o'])
 
     onMounted(() => {
       themeValue.value = THEMEARR
@@ -57,6 +77,9 @@ export default {
       themeValue,
       onConfirm,
       showPicker,
+      columnNum,
+      gridNum,
+      gridIcon,
     }
   },
 }
@@ -65,6 +88,7 @@ export default {
 <style lang="scss">
 .home {
   padding: 10px;
+  padding-bottom: 70px;
 
   .t-home-title,
   .t-home-sub-title,
