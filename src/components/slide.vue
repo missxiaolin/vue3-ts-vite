@@ -31,7 +31,7 @@ export default defineComponent({
   },
   setup({ list }, { emit }) {
     const activeIndex = ref(0)
-    function transitionStart(swiper) {
+    function transitionStart(swiper: any) {
       //表示没有滑动,不做处理
       if (activeIndex.value === swiper.activeIndex) {
         // 表示是第一个轮播图

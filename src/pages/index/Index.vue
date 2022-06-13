@@ -3,7 +3,7 @@
     <van-tabbar v-model="active" route>
       <van-tabbar-item replace to="/index/home" icon="home-o">首页</van-tabbar-item>
       <van-tabbar-item replace to="/index/list" icon="orders-o">列表</van-tabbar-item>
-      <van-tabbar-item replace to="/index/mine" icon="friends-o">我的</van-tabbar-item>
+      <van-tabbar-item replace to="/index/mine" icon="contact">我的</van-tabbar-item>
     </van-tabbar>
     <router-view data-theme="light-theme" />
   </div>

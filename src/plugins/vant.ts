@@ -19,6 +19,9 @@ import {
   Card,
   Sidebar,
   SidebarItem,
+  Field,
+  Popup,
+  Picker
 } from 'vant'
 
 const plugins = [
@@ -37,6 +40,9 @@ const plugins = [
   Card,
   Sidebar,
   SidebarItem,
+  Field,
+  Popup,
+  Picker
 ]
 
 export const vantPlugins = {
