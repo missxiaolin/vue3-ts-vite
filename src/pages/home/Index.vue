@@ -2,15 +2,15 @@
   <div class="home">
     <div>这里是首页,点击下方选择框切换主题</div>
     <van-field
+      v-model="currentTheme"
       readonly
       clickable
       name="picker"
-      :value="currentTheme"
       label="主题"
       placeholder="点击选择主题"
       @click="showPicker = true"
     />
-    <van-popup v-model="showPicker" position="bottom">
+    <van-popup v-model:show="showPicker" position="bottom">
       <van-picker
         show-toolbar
         :default-index="currentThemeIndex"
@@ -27,28 +27,36 @@ declare let THEMEARR: any
 
 import { onMounted, getCurrentInstance, ref, Ref } from 'vue'
 export default {
-
   setup() {
     let currentTheme: Ref<String> = ref('default')
     let currentThemeIndex: Ref<Number> = ref(0)
+    // 获取data 的值
     let oldData = getCurrentInstance()
     let showPicker: Ref<Boolean> = ref(false)
-    let themeValue: [] = []
+    let themeValue: any = ref([])
 
     onMounted(() => {
-      currentTheme.value = THEMEARR[0]
-      currentThemeIndex.value = themeValue.findIndex((theme: string) => theme === 'default')
+      themeValue.value = THEMEARR
+      currentThemeIndex.value = themeValue.value.findIndex((theme: string) => theme === 'default')
+      let index: any = currentThemeIndex.value
+      currentTheme.value = themeValue.value[index]
     })
 
-    const onConfirm = () => {
-        showPicker.value = false
+    const onConfirm = (theme: string) => {
+      showPicker.value = false
+      currentTheme.value = theme
+      currentThemeIndex.value = themeValue.value.findIndex(
+        (theme: string) => theme === currentTheme.value
+      )
+      let index: any = currentThemeIndex.value
+      document.getElementsByTagName('body')[0].setAttribute('data-theme', THEMEARR[index])
     }
     return {
       currentTheme,
       currentThemeIndex,
       themeValue,
       onConfirm,
-      showPicker
+      showPicker,
     }
   },
 }
