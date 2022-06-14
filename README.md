@@ -1069,3 +1069,293 @@ export default defineConfig({
 `VueUse` 是一个基于 `Composition API` 的实用函数集合。通俗的来说，这就是一个`工具函数`包，它可以帮助你快速实现一些常见的功能，免得你自己去写，解决重复的工作内容。以及进行了基于 Composition API 的封装。让你在 vue3 中更加得心应手。
 
 💡想要入手 vue3 的小伙伴，赶快学习起来吧！！！
+
+
+## 主题
+
+在项目开发过程中，我们有时候遇到需要更换站点主题色的需求。乃至于 APP 底部的 banner 中的 icon、文案和背景图都是运营线上可配置的。还有的功能比如更换系统字体大小等。
+这些本质上都是 CSS 的动态渲染的需求。如果在开发过程中写死 CSS 样式的话在面对这样的需求的时候就会真·痛苦面具了。所以我们需要提前定义一整套 CSS 的环境变量体系，在开发过程中就使用这套体系，未雨绸缪才能立于不败之地。
+
+### 定义变量
+
+我们需要提前把一些常用的主题色，字体大小，以及边距这种与视觉沟通好，然后定义对应的变量。这里我参考资料贴了一套自定义的颜色变量。当然里面的具体颜色可以根据需求动态调整。
+
+#### 小技巧
+
+这里讲一个小技巧，定义的时候可以先定义一个基准变量 base-param 然后其他状态的值可以依赖这个 base-param 进行缩放或放大实现。比如不同大小规模的字体可以采用这种方法。
+
+~~~
+// 行高
+$line-height-base: 1.5 !default;
+$line-height-lg: 2 !default;
+$line-height-sm: 1.25 !default;
+~~~
+
+~~~
+// ./style/settings/variable.scss
+
+// 字体颜色
+$info: #17a2b8 !default;
+$danger: #dc3545 !default;
+
+// 字体大小 浏览器默认16px
+$font-size-base: 1rem !default;
+$font-size-lg: $font-size-base * 1.25 !default;
+$font-size-slg: $font-size-base * 1.75 !default;
+
+// 字重
+$font-weight-normal: 400 !default;
+$font-weight-bold: 600 !default;
+~~~
+
+### 定义主题
+
+我们目前接到的需求是适老化改造，目前市场上大多数的项目字体都比较小，对老年人用户不太友好。所以针对老年人用户需要放大系统字体，方便他们查看。你也可以根据自己的需求进行不同的主题定制。
+
+#### 定义一个入口文件
+
+~~~
+// ./style/theme/index.scss
+
+@import "../settings/variable.scss";
+
+$themes-color: (
+  default: (
+    // 全局样式属性
+    color: $info,
+    font-weight: $font-weight-normal,
+    font-size: $font-size-lg,
+  ),
+  old: (
+    color: $danger,
+    font-weight: $font-weight-bold,
+    font-size: $font-size-slg,
+  ),
+);
+// ... 可自定义其他主题
+~~~
+
+#### vue.config.js 配置项处理
+
+我们不想每次都引入 CSS 变量，可以里在配置项中利用 CSS 插件自动注入全局变量样式。
+
+~~~
+// vue.config.js
+
+module.exports = {
+  css: {
+    loaderOptions: {
+      scss: {
+        // 注意: 在 sass-loader v8 中，这个选项是 prependData
+        additionalData: `@import "@/style/theme/index.scss";`,
+      },
+    },
+  },
+};
+~~~
+
+### 主题色切换
+
+主题色定义好之后就需要对他进行切换了。这也是一键换肤最核心的逻辑。
+
+- 在 App.vue 文件下的 mounted 中将 body 添加一个自定义的 data-theme 属性，并将其设置为 default
+
+~~~
+// App.vue mounted() { document .getElementsByTagName("body")[0]
+.setAttribute("data-theme", "default"); },
+~~~
+
+- 利用 webpack 自定义插件遍历主题目录文件，自动生成自定义主题目录数组
+
+~~~
+// vue.config.js
+const fs = require("fs");
+const webpack = require("webpack");
+
+// 获取主题文件名
+const themeFiles = fs.readdirSync("./src/style/theme");
+let ThemesArr = [];
+themeFiles.forEach(function (item, index) {
+  let stat = fs.lstatSync("./src/style/theme/" + item);
+  if (stat.isDirectory() === true) {
+    ThemesArr.push(item);
+  }
+});
+
+module.exports = {
+  css: {...},
+  configureWebpack: (config) => {
+    return {
+      plugins: [
+        // 自定义webpack插件
+        new webpack.DefinePlugin({
+          THEMEARR: JSON.stringify(ThemesArr),
+        }),
+      ],
+    };
+  },
+};
+~~~
+
+- 切换 js 逻辑实现
+
+#### 初始化页面的时候，获取到默认主题
+
+~~~
+// Home.vue
+mounted() {
+  this.themeValue = THEMEARR;
+  this.currentThemeIndex = this.themeValue.findIndex(
+    (theme) => theme === "default"
+  );
+  this.currentTheme = this.themeValue[this.currentThemeIndex];
+},
+~~~
+
+#### 把选择的主题赋值给自定义属性 data-theme
+
+~~~
+// Home.vue
+
+// 核心切换逻辑
+methods: {
+  onConfirm(currentTheme) {
+    this.currentTheme = currentTheme;
+    this.showPicker = false;
+    this.currentThemeIndex = this.themeValue.findIndex(
+      (theme) => theme === currentTheme
+    );
+    document
+      .getElementsByTagName("body")[0]
+      .setAttribute("data-theme", THEMEARR[this.currentThemeIndex]);
+  },
+}
+~~~
+
+#### CSS 版本如何实现主题色切换
+
+可能大家不太了解，CSS 也是可以支持自定义属性的，这就为我们定义属性变量提供了基础。他通过在自定义属性之前加上前缀 -- 来实现。
+
+~~~
+body {
+  --foo: #7f583f;
+  --bar: #f7efd2;
+}
+~~~
+
+首先想到的就是给标签添加自定义主题属性 data-theme,再通过 css 属性选择器+命名空间来找到指定的元素并替换不同的主题色。这里采用的 t-文件名-含义类名来命名，防止样式冲突。
+
+~~~
+// ./default.scss
+// 也可以换成其他的自定义变量颜色
+[data-theme="default"] .t-list-title,
+[data-theme="default"] .t-list-sub-title,
+[data-theme="default"] .t-list-info {
+  color: var(--foo);
+  font-weight: 400;
+  font-size: 1rem * 1.25;
+}
+
+// ./old.scss
+// 也可以换成其他的自定义变量颜色
+[data-theme="old"] .t-list-title,
+[data-theme="old"] .t-list-sub-title,
+[data-theme="old"] .t-list-info {
+  color: var();
+  font-weight: 600;
+  font-size: 1rem * 1.75;
+}
+~~~
+
+~~~
+// ./List.vue
+<template>
+  <div class="home">
+    <div class="container" v-for="(item, index) in 3" :key="index">
+      <div class="t-list-title">标题</div>
+      <div class="t-list-sub-title">副标题</div>
+      <div class="t-list-info">
+        这是一段很长的详情信息这是一段很长的详情信息这是一段很长的详情信息这是一段很长的详情信息这是一段很长的详情信息这是一段很长的详情信息这是一段很长的详情信息
+      </div>
+    </div>
+  </div>
+</template>
+~~~
+
+#### Scss 版本如何实现主题色切换
+
+Scss 前置知识
+
+在使用 sass 之前，需要知道一些知识点。
+
+使用@each 循环
+
+- 循环一个 list: 类名为 icon-10px 、icon-12px、icon-14px 写他们的字体大小写法就可以如下：
+- 循环一个 map：类名为 icon-primary、icon-success、icon-secondary 等，但是他们的值又都是变量，写法如下：
+- map-get
+
+map-get(map,key) 函数的作用是根据 key 参数，返回 key 在 map 中对应的 value 值。如果 key 不存在 map 中，将返回 null 值。此函数包括两个参数：
+map：定义好的 map。
+key：需要遍历的 key。
+假设要获取 facebook 键值对应的值 #3b5998，我们就可以使用 map-get() 函数来实现：
+
+- 使用&嵌套覆盖原有样式
+
+当一个元素的样式在另一个容器中有其他指定的样式时，可以使用嵌套选择器让他们保持在同一个地方。.no-opacity &相当于.no-opacity .foo。
+
+- map-merge
+
+合并两个 map 形成一个新的 map 类型，即将 map2 添加到 map1的尾部
+
+~~~
+$font-sizes: ("small": 12px, "normal": 18px, "large": 24px)
+$font-sizes2: ("x-large": 30px, "xx-large": 36px)
+map-merge($font-sizes, $font-sizes2)
+结果: "small": 12px, "normal": 18px, "large": 24px,
+"x-large": 30px, "xx-large": 36px
+~~~
+
+- @content
+
+@content 用在 mixin 里面的，当定义一个 mixin 后，并且设置了 @content； @include 的时候可以传入相应的内容到 mixin 里面
+
+### 综合使用
+
+#### 定义混合指令,切换主题,并将主题中的所有规则添加到 theme-map 中
+
+~~~
+// ./Home.vue
+
+@mixin themify() {
+  @each $theme-name, $map in $themes-color {
+    // & 表示父级元素  !global 表示覆盖原来的
+    [data-theme="#{$theme-name}"] & {
+      $theme-map: () !global;
+      // 循环合并键值对
+      @each $key, $value in $map {
+        $theme-map: map-merge(
+          $theme-map,
+          (
+            $key: $value,
+          )
+        ) !global;
+      }
+      // 表示包含 下面函数 themed()
+      @content;
+    }
+  }
+}
+
+@function themed($key) {
+  @return map-get($theme-map, $key);
+}
+.t-list-title,
+.t-list-sub-title,
+.t-list-info {
+  @include themify() {
+    color: themed("color");
+    font-weight: themed("font-weight");
+    font-size: themed("font-size");
+  }
+}
+~~~
