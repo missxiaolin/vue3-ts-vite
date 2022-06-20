@@ -53,7 +53,14 @@ const routes: Array<RouteRecordRaw> = [
       title: '视频'
     }
   },
-  
+  {
+    path: '/page',
+    name: 'name',
+    component: () => import('@/pages/page/Index.vue'),
+    meta: {
+      title: '大屏适配实战'
+    }
+  }
 ]
 
 const router = createRouter({
