@@ -66,7 +66,15 @@ const routes: Array<RouteRecordRaw> = [
     name: 'upload',
     component: () => import('@pages/upload/Index.vue'),
     meta: {
-      titl: '上传'
+      title: '上传'
+    }
+  },
+  {
+    path: '/go/bang',
+    name: 'Gobang',
+    component: () => import('@/pagrs/goBang/Index.vue'),
+    meta: {
+      title: "五子棋"
     }
   }
 ]
