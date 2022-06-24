@@ -60,6 +60,14 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       title: '大屏适配实战'
     }
+  },
+  {
+    path: '/upload',
+    name: 'upload',
+    component: () => import('@pages/upload/Index.vue'),
+    meta: {
+      titl: '上传'
+    }
   }
 ]
 
